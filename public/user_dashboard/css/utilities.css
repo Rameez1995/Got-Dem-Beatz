@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-grey);
+    font-weight: normal;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 0;
+    margin: 0;
+}
+
+ul,
+li,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    outline: 0;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+a:active,
+a:focus,
+a:hover {
+    outline: 0;
+    text-decoration: none;
+}
+
+button:active,
+button:focus {
+    outline: 0 !important;
+    text-decoration: none;
+}
+
+.btn.focus,
+.btn:focus {
+    box-shadow: none !important;
+    border-color: none !important;
+}
+
+:focus {
+    outline: 0 !important;
+}
+
+a:hover,
+a {
+    text-decoration: none;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.btn-1 {
+    font-size: 16px;
+    background-image: -moz-linear-gradient(90deg, rgb(253, 116, 61) 0%, rgb(254, 179, 78) 100%);
+    background-image: -webkit-linear-gradient(90deg, rgb(253, 116, 61) 0%, rgb(254, 179, 78) 100%);
+    background-image: -ms-linear-gradient(90deg, rgb(253, 116, 61) 0%, rgb(254, 179, 78) 100%);
+    text-decoration: none;
+    font-weight: 500;
+    color: white !important;
+}
+
+.text-grey {
+    color: #c9c1c1;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}

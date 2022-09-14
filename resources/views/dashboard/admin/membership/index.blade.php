@@ -1,0 +1,95 @@
+@extends('dashboard.admin.layouts.app')
+
+@section('page_title', 'Membership Images')
+
+@section('head_style')
+<!-- Datatables -->
+<link rel="stylesheet" href="{{ asset('admin_dashboard/assets/css/dataTables.bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('admin_dashboard/assets/css/responsive.bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('admin_dashboard/assets/css/buttons.bootstrap4.css') }}">
+@endsection
+
+@section('content')
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Hi Admin Welcome Back</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Membership Images</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Messages -->
+          @include('dashboard.admin.includes.messages')
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Manage Membership Images</h3>
+              <div class="card-tools">
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>First Image</th>
+                    <th>second Image</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if(isset($membership))   
+                  <tr>
+                    <td><img src="../storage/membership/first_image/{{ $membership->first_image}}" width="100px" height="50px"></td>
+                    <td><img src="../storage/membership/second_image/{{ $membership->second_image }}" width="100px" height="50px"></td>
+                    <td style="width: 11rem">
+                      <a href="{{ url('/admin/membership/edit/'.$membership->id) }}" class="btn btn-info btn-sm"><i
+                          class="fas fa-edit mr-2"></i> Edit</a>
+                    </td>
+                  </tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+@endsection
+
+@section('bottom_script')
+<script src="{{ asset('admin_dashboard/assets/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{ asset('admin_dashboard/assets/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('admin_dashboard/assets/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('admin_dashboard/assets/js/responsive.bootstrap4.min.js')}}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+    });
+  });
+</script>
+@endsection

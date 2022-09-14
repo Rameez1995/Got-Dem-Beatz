@@ -1,0 +1,1 @@
+<script src="{{ asset('frontend_assets/js/footer.js') }}"></script>

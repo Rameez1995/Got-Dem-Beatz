@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+:root {
+    --color-golden: #d4af37;
+    --bg-gradient-primary: linear-gradient(90deg, #bd973e, #f9df6a, #bc973e);
+    --color-black: #464a53;
+    --color-grey: #7a86a1;
+    --color-blue: #0d6efd;
+    --color-offwhite: #f3f3f3;
+}
