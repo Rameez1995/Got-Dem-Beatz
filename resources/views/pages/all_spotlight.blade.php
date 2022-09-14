@@ -23,7 +23,7 @@
     <main>
         <section style="background-image: url(../storage/settings/banner/{{$banner}});background-position: center;background-repeat: no-repeat;background-size: cover;height:320px;" class="d-flex justify-content-center align-items-center">
             <div class="container"> 
-                <h1 class="banner_inner_title">spotlights</h1>
+                <h1 class="banner_inner_title">Spotlights</h1>
             </div>
         </section>
        
@@ -32,7 +32,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12  text-center py-md-5 py-3">
-                        <h3 class="fs-1 position-relative text-white">Spotlight</h3>
+                        <h3 class="fs-1 position-relative">Spotlight</h3>
                         <p class="mx-auto width-50 pt-5 text-secondary">From video games to television shows, we’ve produced blockbuster beats for clients across various industries.  </p>
                     </div>
                 </div>
