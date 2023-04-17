@@ -11,7 +11,7 @@
                             <div class="col-md-8 col-12">
                                 <div class="d-flex justify-content-between">
                                     <p class="fs-5 text-white ps-2">Subscriptions</p>
-                                    <p class="fs-1 text-white ps-2 fw-bold">$36.99 <span class="d-block fs-12 fw-normal">per month or save $48 billed <br> annually</span></p>
+                                    <p class="fs-1 text-white ps-2 fw-bold">$36.99 <span class="d-block fs-12 fw-normal">per month</span></p>
                                 </div>
                                 <p class="fs-5 text-white fw-bold ps-2 mb-0 ">Basic Features</p>
 

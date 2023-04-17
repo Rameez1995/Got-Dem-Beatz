@@ -1,6 +1,10 @@
-@extends('layout')
   
-@section('content')
+<?php $__env->startSection('content'); ?>
+<style>
+    .hide{
+        display:none;
+    }
+</style>
 <section class="banner_inner d-flex justify-content-center align-items-center">
             <div class="container">
                 <div class="row">
@@ -300,14 +304,6 @@
                                                 <label for="phone" class="fw-bold mb-2">Phone</label>
                                                 <input type="tel" class="form-control" id="phone">
                                             </div>
-                                            <div class="col-12 mb-3">
-                                                <label for="accountPassword" class="fw-bold mb-2">Account Password</label>
-                                                <input type="tel" class="form-control" id="accountPassword">
-                                            </div>
-                                            <div class="col-12 mb-3">
-                                                <label for="orderNote" class="fw-bold mb-2">Order Note</label>
-                                                <textarea id="orderNote" class="form-control" rows="6"></textarea>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -315,52 +311,39 @@
                                     <div class="bg-white shadow rounded px-lg-5 pb-lg-5 me-lg-5 px-5 pb-4">
                                         <h2 class="border-bottom text-center py-4 mb-4">Your Order</h2>
                                         <h3 class="fs-5 mb-4">Beats</h3>
-                                        @php $total = 0 @endphp
-                                        @if(session('cart'))
-                                        @foreach(session('cart') as $id => $details)
-                                        @php $total += $details['price'] * $details['quantity'] @endphp
+                                        <?php $total = 0 ?>
+                                        <?php if(session('cart')): ?>
+                                        <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $total += $details['price'] * $details['quantity'] ?>
                                         <div class="row gy-2">
-                                            <div class="col-sm-6">{{ $details['name'] }}</div>
-                                            <div class="col-sm-6 text-end">${{ $details['price'] }}</div>
+                                            <div class="col-sm-6"><?php echo e($details['name']); ?></div>
+                                            <div class="col-sm-6 text-end">$<?php echo e($details['price']); ?></div>
                                         </div>
-                                        @endforeach
-                                        @endif
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
                                         <div class="border-top border-bottom py-3 mt-3">
                                             <div class="row ">
                                                 <div class="col-sm-6 fw-bold" style="font-size: 18px;">Subtotal</div>
-                                                <div class="col-sm-6 text-end fw-bold">${{ $total }}</div>
+                                                <div class="col-sm-6 text-end fw-bold">$<?php echo e($total); ?></div>
                                             </div>
                                         </div>
                                         <div class="py-3 mb-3">
                                             <div class="row">
                                                 <div class="col-sm-6 fw-bold" style="font-size: 18px;">Total</div>
-                                                <div class="col-sm-6 text-end fw-bold fs-5">${{ $total }}</div>
+                                                <div class="col-sm-6 text-end fw-bold fs-5">$<?php echo e($total); ?></div>
                                             </div>
                                         </div>
-                                        <label for="haveCoupon" class="mb-3">Have A Coupon ?</label>
+                                        <label for="havePromo" class="mb-3">Have A Promo Code ?</label>
                                         <div class="row g-0 mb-5">
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control coupon-input" id="haveCoupon" placeholder="Coupon Code">
+                                                <input type="text" class="form-control coupon-input" id="havePromo" placeholder="Promo Code">
                                             </div>
                                             <div class="col-sm-4">
                                                 <button type="submit" class="coupon-btn border-0 w-100">Update Cart</button>
                                             </div>
                                         </div>
                                         <div class="form-check mb-3">
-                                            <input class="form-check-input" type="radio" name="paymentMethodsCard" id="creditDebtCards">
-                                            <label class="form-check-label d-flex justify-content-between" for="creditDebtCards">
-                                                <span>
-                                                    Credit Or Debt Cards
-                                                </span>
-                                                <span>
-                                                    <img src="assets/img/visa.png" alt="">
-                                                    <img src="assets/img/mastercard.png" alt="">
-                                                    <img src="assets/img/stirpe.png" alt="">
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="paymentMethodsCard" id="paypal" checked>
+                                            <input onclick="show1();" class="form-check-input" type="radio" name="paymentMethodsCard" id="paypal">
                                             <label class="form-check-label d-flex justify-content-between" for="paypal">
                                                 <span>
                                                     Paypal
@@ -370,11 +353,52 @@
                                                 </span>
                                             </label>
                                         </div>
-                                        <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!! URL::route('checkout') !!}" >
-                                        {{ csrf_field() }}
-                                        <input id="amount" type="hidden" class="form-control" name="amount" value="{{ $total }}" autofocus>
-                                        <button type="submit" class="btn-submit-login d-block text-center btn-place-order mt-5">Place Order</button>
+                                        <div class="form-check mb-3">
+                                            <input onclick="show2();" class="form-check-input" type="radio" name="paymentMethodsCard" value="stripe" id="stripeForm"  onclick="show2();">
+                                            <label class="form-check-label d-flex justify-content-between" for="stripeForm">
+                                                <span>
+                                                    Stripe
+                                                </span>
+                                                <span>
+                                                    <img src="assets/img/stripe.png" alt="">
+                                                </span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div id="div1" class="hide">
+                                            <form role="form" action="<?php echo e(route('stripe.post')); ?>" method="post" class="require-validation" data-cc-on-file="false"
+                                            data-stripe-publishable-key="<?php echo e(env('STRIPE_KEY')); ?>" id="payment-form">
+                                            <?php echo csrf_field(); ?>
+                                            <input type="hidden" name="amount" value="<?php echo e($total); ?>">
+                                            <div class="mb-3">
+                                                <input type="text" placeholder="Name on Card" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" placeholder="Card Number" class="form-control card-number" id="iban">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                <input type="text" placeholder="CVV" class="form-control card-cvc" id="exampleInputPassword1">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                <input type="text" placeholder="Exp Month" class="form-control card-expiry-month" id="exampleInputPassword1">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                <input type="text" placeholder="Exp Year" class="form-control card-expiry-year" id="exampleInputPassword1">
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn-submit-login d-block text-center btn-place-order mt-5 px-5">Place Order</button>
+                                            </form>
+                                        </div>
+                                          
+                                        <div id="div2" class="show">  
+                                        <form class="form-horizontal" method="POST" id="payment-form" role="form" action="<?php echo URL::route('checkout'); ?>" >
+                                        <?php echo e(csrf_field()); ?>
+
+                                        <input id="amount" type="hidden" class="form-control" name="amount" value="<?php echo e($total); ?>" autofocus>
+                                        <button type="submit" class="btn-submit-login d-block text-center btn-place-order mt-5 px-5">Place Order</button>
                                         </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -383,7 +407,66 @@
                 </div>
             </div>
         </section>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-@endsection
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  
+<script type="text/javascript">
+$(function() {
+   
+    var $form         = $(".require-validation");
+   
+    $('form.require-validation').bind('submit', function(e) {
+        var $form         = $(".require-validation"),
+        inputSelector = ['input[type=email]', 'input[type=password]',
+                         'input[type=text]', 'input[type=file]',
+                         'textarea'].join(', '),
+        $inputs       = $form.find('.required').find(inputSelector),
+        $errorMessage = $form.find('div.error'),
+        valid         = true;
+        $errorMessage.addClass('hide');
+  
+        $('.has-error').removeClass('has-error');
+        $inputs.each(function(i, el) {
+          var $input = $(el);
+          if ($input.val() === '') {
+            $input.parent().addClass('has-error');
+            $errorMessage.removeClass('hide');
+            e.preventDefault();
+          }
+        });
+   
+        if (!$form.data('cc-on-file')) {
+          e.preventDefault();
+          Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+          Stripe.createToken({
+            number: $('.card-number').val(),
+            cvc: $('.card-cvc').val(),
+            exp_month: $('.card-expiry-month').val(),
+            exp_year: $('.card-expiry-year').val()
+          }, stripeResponseHandler);
+        }
+  
+  });
+  
+  function stripeResponseHandler(status, response) {
+        if (response.error) {
+            $('.error')
+                .removeClass('hide')
+                .find('.alert')
+                .text(response.error.message);
+        } else {
+            /* token contains id, last4, and card type */
+            var token = response['id'];
+               
+            $form.find('input[type=text]').empty();
+            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+            $form.get(0).submit();
+        }
+    }
+   
+});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/backendhostingla/public_html/webapp/beatpro/resources/views/pages/checkout1.blade.php ENDPATH**/ ?>

@@ -202,7 +202,7 @@ class ServicesController extends Controller
   public function drum_kits_loops()
   {
     // Get drum kits service page
-    $drum_kit_loops = DrumKitLoop::get();
+    $drum_kit_loops = DrumKitLoop::orderBy('id', 'DESC')->get();
     $banner=WebSetting::value('banner');
     $logo=WebSetting::value('logo');
     return view('pages.services.drum_kits_loops',compact('drum_kit_loops','banner','logo'));

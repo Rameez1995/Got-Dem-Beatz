@@ -58,6 +58,20 @@
                   <input type="file" name="image" class="form-control" id="inputFile">
                 </div>
                 
+                <div class="form-group">
+                  <label for="editor">Description</label>
+                  <textarea name="desc" rows="3" class="form-control">{{ $spotlight->desc }}</textarea>
+                </div>
+                
+                 <div class="form-group">
+                  <label for="inputFile">Beat *</label><br>
+                  <figure class="figure">
+                    <img src="{{ url('/storage/spotlights/mp3logo.png') }}"
+                      class="figure-img img-fluid rounded img-thumbnail" alt="Profile photo">
+                  </figure>
+                  <input type="file" name="song_file" class="form-control" id="inputFile">
+                </div>
+                
               </div>
               <!-- /.card-body -->
 

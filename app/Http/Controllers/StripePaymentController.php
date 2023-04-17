@@ -5,16 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use Stripe;
+use App\Models\WebSetting;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
 class StripePaymentController extends Controller
 {
-    public function stripe()
-    {
-        return view('checkout');
-    }
-  
     /**
      * success response method.
      *
@@ -22,12 +18,14 @@ class StripePaymentController extends Controller
      */
     public function stripePost(Request $request)
     {
+        if (Auth::check()) {
+        $amount = 100 * $request->amount;
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         Stripe\Charge::create ([
-                "amount" => 10 * 10,
+                "amount" => $amount,
                 "currency" => "usd",
                 "source" => $request->stripeToken,
-                "description" => "Test payment from Got Dem Beatz." 
+                "description" => "Test payment from Got Dem Beatz" 
         ]);
 
         $user_id = Auth::id();
@@ -43,7 +41,8 @@ class StripePaymentController extends Controller
 
         }
   
-        return redirect()->route('my-songs')->with('success', 'Purchase Successfull ! Song has been added to your list!');
-          
+        return redirect()->route('user.my-songs')->with('success', 'Purchase Successfull ! Song has been added to your list!');
+      }
+        return redirect()->route('login')->with('warning','Please login first in order to proceed!');
     }
 }

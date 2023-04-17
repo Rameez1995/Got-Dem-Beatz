@@ -114,6 +114,11 @@
                 </div>
                
                 <div class="form-group">
+                  <label for="inputTitle">Sorting *</label>
+                  <input type="number" name="sorting" class="form-control" value="{{ $song->sorting }}" id="inputTitle" placeholder="Enter Sorting">
+                </div>
+                
+                <div class="form-group">
                   <label for="inputStatus">Status</label>
                   <select class="form-control" name="status" id="inputStatus">
                     <option value="1" @if($song->status == 1) {{ __('selected') }} @endif>Active</option>

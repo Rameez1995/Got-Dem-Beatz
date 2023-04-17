@@ -44,7 +44,7 @@ class CheckoutController extends Controller
       // Get checkout pages
         $banner=WebSetting::value('banner');
         $logo=WebSetting::value('logo');
-      return view('pages.checkout1',compact('banner','logo'));
+      return view('pages.checkout',compact('banner','logo'));
     }
 
     public function checkout_drum_kits_loops(Request $request)

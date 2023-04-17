@@ -23,7 +23,7 @@ class SongsController extends Controller
   public function index()
   {
     // Get all pages
-    $songs = Song::with('drum_kit_loops')->with('producers')->orderBy('id', 'DESC')->get();
+    $songs = Song::with('drum_kit_loops')->with('producers')->orderBy('sorting', 'ASC')->get();
     $banner=WebSetting::value('banner');
     $logo=WebSetting::value('logo');
     return view('dashboard.admin.songs.index', compact('songs','banner','logo'));
@@ -76,6 +76,7 @@ class SongsController extends Controller
       'min' => 'required',
       'sec' => 'required',
       'producer_id' => 'required',
+      'sorting' => 'required',
     ]);
 
     if ($request->hasFile('song_file')) {
@@ -107,6 +108,7 @@ class SongsController extends Controller
       'bpm' => $request->bpm,
       'image' => $fileNameToStore,
       'song_file' => $fileNameToStore1,
+      'sorting' => $valid['sorting'],
       'status' => $valid['status']
     ];
     
@@ -212,6 +214,7 @@ class SongsController extends Controller
       'min' => 'required',
       'sec' => 'required',
       'producer_id' => 'required',
+      'sorting' => 'required',
     ]);
 
     if ($request->hasFile('image')) {
@@ -252,14 +255,26 @@ class SongsController extends Controller
       'sec' => $request->sec,
       'price' => $request->price,
       'lyrics' => $request->lyrics,
+      'sorting' => $valid['sorting'],
       'status' => $valid['status']
     ];
 
-    if ($request->hasFile('image') && $request->hasFile('song_file') ) {
-      $data = array_merge($data1, $data2, $data);
-    } else {
-      $data = $data;
+    // if ($request->hasFile('image') && $request->hasFile('song_file') ) {
+    //   $data = array_merge($data1, $data2, $data);
+    // } else {
+    //   $data = $data;
+    // }
+    
+    if ($request->hasFile('image') && $request->song_file==null) {
+      $data = array_merge($data1, $data);
+    } elseif ($request->hasFile('song_file') && $request->image==null){
+      $data = array_merge($data2, $data);
+    }elseif($request->hasFile('image') && $request->hasFile('song_file') ){
+        $data = array_merge($data2,$data1, $data);
+    }else{
+       $data = $data;
     }
+
 
     // Update data into db
     $song = Song::find($id);

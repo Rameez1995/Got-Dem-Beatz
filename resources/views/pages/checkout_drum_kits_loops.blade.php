@@ -302,11 +302,7 @@
                                             </div>
                                             <div class="col-12 mb-3">
                                                 <label for="accountPassword" class="fw-bold mb-2">Account Password</label>
-                                                <input type="tel" class="form-control" id="accountPassword">
-                                            </div>
-                                            <div class="col-12 mb-3">
-                                                <label for="orderNote" class="fw-bold mb-2">Order Note</label>
-                                                <textarea id="orderNote" class="form-control" rows="6"></textarea>
+                                                <input type="password" class="form-control" id="accountPassword">
                                             </div>
                                         </div>
                                     </div>
@@ -321,10 +317,10 @@
                                         </div>
 
                                         <div class="py-3 mb-3"></div>
-                                        <label for="haveCoupon" class="mb-3">Have A Coupon ?</label>
+                                        <label for="havePromo" class="mb-3">Have A Promo Code ?</label>
                                         <div class="row g-0 mb-5">
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control coupon-input" id="haveCoupon" placeholder="Coupon Code">
+                                                <input type="text" class="form-control coupon-input" id="havePromo" placeholder="Promo Code">
                                             </div>
                                             <div class="col-sm-4">
                                                 <button type="submit" class="coupon-btn border-0 w-100">Update Cart</button>

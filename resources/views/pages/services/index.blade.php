@@ -53,4 +53,7 @@
         </section>
         @endif
         @endforeach
+        @section('scripts')
+<script src="{{ asset('frontend_assets/js/plugins.js') }} " defer></script>
+<script src="{{ asset('frontend_assets/js/theme.js') }} " defer></script>
 @endsection

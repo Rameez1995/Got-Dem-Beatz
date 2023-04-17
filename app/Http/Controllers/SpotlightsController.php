@@ -61,12 +61,21 @@ class SpotlightsController extends Controller
       'name' => 'required|string',
       'image' => 'required|image',
     ]);
+    
+    if ($request->hasFile('song_file')) {
+      // Save file to folder
+      $loc = '/public/spotlights';
+      $fileData = $request->file('song_file');
+      $fileNameToStore = $this->uploadImage($fileData, $loc);
+    } else {
+      $fileNameToStore = 'no_img.jpg';
+    }
 
     if ($request->hasFile('image')) {
       // Save file to folder
-      $loc = '/public/spotlights';
-      $fileData = $request->file('image');
-      $fileNameToStore1 = $this->uploadImage($fileData, $loc);
+      $loc1 = '/public/spotlights';
+      $fileData1 = $request->file('image');
+      $fileNameToStore1 = $this->uploadImage($fileData1, $loc1);
     } else {
       $fileNameToStore1 = 'no_img.jpg';
     }
@@ -74,9 +83,9 @@ class SpotlightsController extends Controller
 
     $data = [
       'name' => $valid['name'],
-    //   'desc' => $request->desc,
-      'image' => $fileNameToStore1
-    //   'status' => $valid['status']
+      'desc' => $request->desc,
+      'image' => $fileNameToStore1,
+      'song_file' => $fileNameToStore
     ];
 
     // Save data into db
@@ -131,9 +140,9 @@ class SpotlightsController extends Controller
 
     if ($request->hasFile('image')) {
       // Save image to folder
-      $loc = '/public/spotlights';
-      $fileData = $request->file('image');
-      $fileNameToStore1 = $this->uploadImage($fileData, $loc);
+      $loc1 = '/public/spotlights';
+      $fileData1 = $request->file('image');
+      $fileNameToStore1 = $this->uploadImage($fileData1, $loc1);
       $data1 = [
         'image' => $fileNameToStore1
       ];
@@ -142,19 +151,37 @@ class SpotlightsController extends Controller
       $spotlight = Spotlight::where('id', $id)->first();
       Storage::delete('public/spotlights/' . $spotlight->image);
     }
+    
+     if ($request->hasFile('song_file')) {
+        // Save song file to folder
+        $loc = '/public/spotlights';
+        $fileData = $request->file('song_file');
+        $fileNameToStore = $this->uploadImage($fileData, $loc);
+        $data2 = [
+          'song_file' => $fileNameToStore
+        ];
+
+      // Delete previous file
+      $song = Spotlight::where('id', $id)->first();
+      Storage::delete('public/spotlights/' . $song->song_file);
+    }
 
 
     $data = [
         'name' => $valid['name'],
-        // 'desc' => $request->desc,
+         'desc' => $request->desc,
         // 'image' => $fileNameToStore1
         // 'status' => $valid['status']
     ];
 
-    if ($request->hasFile('image')) {
+    if ($request->hasFile('image') && $request->song_file==null) {
       $data = array_merge($data1, $data);
-    } else {
-      $data = $data;
+    } elseif ($request->hasFile('song_file') && $request->image==null){
+      $data = array_merge($data2, $data);
+    }elseif($request->hasFile('image') && $request->hasFile('song_file') ){
+        $data = array_merge($data2,$data1, $data);
+    }else{
+       $data = $data;
     }
 
     // Update data into db

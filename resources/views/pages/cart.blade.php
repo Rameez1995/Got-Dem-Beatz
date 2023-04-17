@@ -53,7 +53,7 @@
                                             </td>
                                             <td>${{ $details['price'] }}</td>
                                             <td>
-                                                <a class="remove-from-cart">
+                                                <a class="remove-from-cart pe-auto" href="javascript:void(0)" tabindex="-1" aria-disabled="true">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="26.579" height="29.199" viewBox="0 0 26.579 29.199">
                                                         <g id="Icon_feather-trash-2" data-name="Icon feather-trash-2" transform="translate(-3 -1.5)">
                                                         <path id="Path_4080" data-name="Path 4080" d="M4.5,9H28.08" transform="translate(0 -0.76)" fill="none" stroke="#ff1314" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
@@ -78,9 +78,9 @@
                                     <p class="mb-0" style="font-size: 18px;">CART SUBTOTAL</p>
                                     <p class="fw-bold fs-4 mb-0">${{ $total }}</p>
                                 </div>
-                                <div class="d-sm-flex justify-content-center text-center text-sm-start">
-                                    <a href="{{ url('/') }}" class="btn-2 text-dark me-sm-4 text-capitalize mb-3 mb-sm-0" style="border-color: #707070;">Go back to home</a>
-                                    <a href="{{ route('checkout1') }}" class="btn-1 text-white">Proceed To Checkout</a>
+                                <div class="d-md-flex justify-content-center text-center text-sm-start align-items-center">
+                                    <div class="me-0 me-md-2 my-4 my-md-0"><a href="{{ url('/') }}" class="btn-2 text-dark  text-capitalize  p-sm-2" style="border-color: #707070;">Go back to home</a></div>
+                                    <div class="me-0 ms-md-2"><a href="{{ route('checkout1') }}" class="btn-1 text-white">Proceed To Checkout</a></div>
                                 </div>
                             </div>
                         </div>

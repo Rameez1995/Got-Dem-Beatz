@@ -48,11 +48,21 @@
 
 
                 <div class="form-group">
-                  <label for="inputFile">Image</label>
+                  <label for="inputFile">Image *</label>
                   <input type="file" name="image" class="form-control" id="inputFile">
                 </div>
 
+              <div class="form-group">
+                  <label for="editor">Description</label>
+                  <textarea name="desc" id="" rows="3" class="form-control"></textarea>
+             </div>
+              
+              <div class="form-group">
+                  <label for="inputFile">Song File</label>
+                  <input type="file" name="song_file" class="form-control" id="inputFile">
               </div>
+                
+            </div>    
               <!-- /.card-body -->
 
               <div class="card-footer">

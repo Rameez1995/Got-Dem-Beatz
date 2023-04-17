@@ -47,14 +47,15 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th style="width: 10px">#</th>
                     <th>Title</th>
                     <th>Image</th>
                     <th>Description</th>
-                    <th>Lyrics</th>
+                    <th>Sorting Order</th>
+                    <th>Song</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -66,7 +67,7 @@
                     <td>{{ $song->title }}</td>
                     <td><img src="../storage/songs/{{ $song->image }}" width="100px" height="50px"></td>
                     <td>{{ Str::limit($song->desc, 100) }}</td>
-                    <td>{{ Str::limit($song->lyrics, 100) }}</td>
+                    <td>{{ $song->sorting }}</td>
                     
                     <td><audio controls>
                     <source src="../storage/songs/{{ $song->song_file }}" type="audio/ogg">

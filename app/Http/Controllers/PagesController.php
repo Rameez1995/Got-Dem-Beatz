@@ -24,10 +24,10 @@ class PagesController extends Controller
      */
     public function index()
     {
-        $songs = Song::with('drum_kit_loops')->take(10)->with('song_tags')->orderBy('id', 'DESC')->get();
-        $drum_kit_loops = DrumKitLoop::take(5)->get();
+        $songs = Song::with('drum_kit_loops')->take(10)->with('song_tags')->orderBy('sorting', 'ASC')->get();
+        $drum_kit_loops = DrumKitLoop::take(4)->orderBy('id', 'DESC')->get();
         $services = Service::get();
-        $spotlights = Spotlight::get();
+        $spotlights = Spotlight::take(4)->orderBy('id', 'DESC')->get();
         $membership = Membership::select('first_image','second_image')->first();
         $banner=WebSetting::value('banner');
         $logo=WebSetting::value('logo');
@@ -89,7 +89,7 @@ class PagesController extends Controller
 
     public function all_spotlights()
     {
-        $spotlights = Spotlight::get();
+        $spotlights = Spotlight::orderBy('id', 'DESC')->get();
         $banner=WebSetting::value('banner');
         $logo=WebSetting::value('logo');
         return view('pages.all_spotlight', compact('spotlights','banner','logo'));
@@ -104,20 +104,20 @@ class PagesController extends Controller
         $songs = Song::query()
                     ->orwhere('title', 'LIKE', "%{$search}%")
                     ->orderBy('id', 'DESC')
-                    ->get();
+                    ->paginate(50);
         }            
         elseif($request->type=="2"){
         $song_id = SongTag::query()
                     ->select('song_id')
                     ->orwhere('tags', 'LIKE', "%{$search}%")
                     ->get();
-        $songs=Song::whereIn('id',$song_id)->orderBy('id', 'DESC')->get(); 
+        $songs=Song::whereIn('id',$song_id)->orderBy('id', 'DESC')->paginate(50); 
         }
         else{
         $producer_id = Producer::query()
                         ->orwhere('name', 'LIKE', "%{$search}%")
                         ->get();   
-        $songs=Song::whereIn('producer_id',$producer_id)->orderBy('id', 'DESC')->get();            
+        $songs=Song::whereIn('producer_id',$producer_id)->orderBy('id', 'DESC')->paginate(50);            
         }
       
         
@@ -132,8 +132,8 @@ class PagesController extends Controller
   
         $songs = Song::query()
                     ->orwhere('title', 'LIKE', "%{$search}%")
-                    ->orderBy('id', 'DESC')
-                    ->get();
+                    ->orderBy('sorting', 'ASC')
+                    ->paginate(50);
         
         
         $banner=WebSetting::value('banner');
@@ -168,6 +168,39 @@ class PagesController extends Controller
         
         return view('pages.song', compact('song','banner','logo','shareComponent'));
     }
+    
+    public function share($id)
+    {
+        echo "hello";
+        \Share::page(
+            'https://www.positronx.io/create-autocomplete-search-in-laravel-with-typeahead-js/',
+            'Your share text comes here',
+        )
+        ->facebook()
+        ->twitter()
+        ->whatsapp(); 
+    }
+    
+    public function getsharebutton(Request $request)
+    {
+       
+        // $hello1=\Share::page(
+        //     'https://www.positronx.io/create-autocomplete-search-in-laravel-with-typeahead-js/',
+        //     'Your share text comes here',
+        // )
+        // ->facebook()
+        // ->twitter()
+        // ->whatsapp();
+        
+        return response()->json("\Share::page(
+            'https://backend.hostingladz.com/webapp/beatpro/public/beat/$request->id',
+        )
+        ->facebook()
+        ->twitter()
+        ->whatsapp();"
+        );
+
+    }
 
     public function specific_drum_kit_loop($id)
     {
@@ -181,6 +214,14 @@ class PagesController extends Controller
         $drum_loop_status=DB::table('user_drum_kits_loops')->where('user_id',$user_id)->where('drum_kits_loops_id',$id)->first();
        
         return view('pages.specific_drum_kit_loop', compact('songs','drum_kit_loop','banner','logo','drum_loop_status'));
+    }
+    
+    public function specific_spotlight($id)
+    {
+        $spotlight = Spotlight::where('id',$id)->first();
+        $logo=WebSetting::value('logo');
+
+        return view('pages.specific_spotlight', compact('spotlight','logo'));
     }
 }
 

@@ -1,5 +1,43 @@
 $(document).ready(function() {
+    
+    
+     // partners
+    $(".SpotlightSlider").slick({
+        slidesToScroll: 1,
+        slidesToShow: 4,
+        dots: false,
+        infinite: true,
+        speed: 300,
+        autoplay: true,
+        arrows: false,
+        margin:'15px',
+        // centerMode: true,
+        // focusOnSelect: true
+      responsive: [{
+                breakpoint: 1199,
+                settings: {
+                    slidesToShow: 3,
+                },
+            },
+               {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                },
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 1,
+                },
+            },
+        ],
+    });
+    
 
+$('.share').popover({ 
+    content: '<div class="d-flex justify-content-between pb-2"> <span>Final Fee</span> <span>$0</span> </div> ', html: true, placement: "bottom",  trigger: "focus" });
+        
     // NAV LINK ACTIVE
     $(function($) {
         var path = window.location.href;
@@ -36,22 +74,23 @@ $(document).ready(function() {
         }
 
     })
+    
+  $('.stripeForm').hide();
+ $('input:radio[name="paymentMethodsCardStripe"]').change(
+function() {
+	if ($(this).is(':checked') && $(this).val() == 'stripe')
+	{$('.stripeForm').show();
+  }
+  
+  else {
+    $('.stripeForm').hide();
+   }
+	}
+);
+
+
+
 });
-
-   // SLICK SLIDER
-    //Logo Slider
-    $(".AlbumSlider").slick({
-        dots: true,
-        arrows: false,
-        autoplay: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-    });
-
-    // SLICK SLIDER END
-
 
 function close_offcanvas() {
     // darken_screen(false);
@@ -93,3 +132,13 @@ document.addEventListener("DOMContentLoaded", function() {
 // DOMContentLoaded  end
 
 // end responsive header
+// start show password hidden password
+function showPassHiddedPass() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+// end show password hidden password

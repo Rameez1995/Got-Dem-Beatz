@@ -16,9 +16,9 @@ class Spotlight extends Model
    */
   protected $fillable = [
     'name',
-    // 'desc',
+    'desc',
     'image',
-    // 'status',
+    'song_file',
   ];
 
 }

@@ -25,6 +25,7 @@ class Song extends Model
     'image',
     'price',
     'song_file',
+    'sorting',
     'status',
   ];
 

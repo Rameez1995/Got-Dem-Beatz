@@ -100,6 +100,11 @@
                   <input type="file" name="song_file" class="form-control" id="inputFile">
                 </div>
 
+                 <div class="form-group">
+                  <label for="inputStatus">Sorting *</label>
+                  <input type="number" name="sorting" class="form-control" min="1" id="inputFile">
+                </div>
+              
                 <div class="form-group">
                   <label for="inputStatus">Status</label>
                   <select class="form-control" name="status" id="inputStatus">

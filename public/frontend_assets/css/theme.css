@@ -180,11 +180,18 @@ body.offcanvas-active {
     height: 15px;
     width: 15px;
 }
-
+.SpotlightSlider  img{
+    height: 232px; border-radius: 100%; object-fit: cover;    width: 232px;
+}
 
 /* ============ mobile view ============ */
 
 @media all and (max-width: 991px) {
+    
+    .SpotlightSlider  img{
+    height: 200px; width:200px;
+}
+
     .offcanvas-header {
         display: block;
     }
@@ -764,6 +771,35 @@ body.offcanvas-active {
     color: #000;
 }
 
+.slick-dots {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem 0;
+  list-style-type: none;
+}
+.slick-dots li {
+  margin: 0 0.25rem;
+}
+.slick-dots button {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: none;
+  border-radius: 100%;
+    background-image: -webkit-linear-gradient(90deg, rgb(253, 116, 61) 0%, rgb(254, 179, 78) 100%);
+    background-image: -moz-linear-gradient(90deg, rgb(255, 17, 21) 0%, rgb(253, 135, 2) 100%);
+    background-image: -webkit-linear-gradient(90deg, rgb(255, 17, 21) 0%, rgb(253, 135, 2) 100%);
+    background-image: -ms-linear-gradient(90deg, rgb(255, 17, 21) 0%, rgb(253, 135, 2) 100%);
+  text-indent: -9999px;
+}
+.slick-dots li.slick-active button {
+    background-image: -webkit-linear-gradient(90deg, rgb(255 255 255) 0%, rgb(255 255 255) 100%);
+    background-image: -moz-linear-gradient(90deg, rgb(255, 17, 21) 0%, rgb(253, 135, 2) 100%);
+    background-image: -webkit-linear-gradient(90deg, rgb(255 255 255) 0%, rgb(255 255 255) 100%);
+    background-image: -ms-linear-gradient(90deg, rgb(255, 17, 21) 0%, rgb(253, 135, 2) 100%);
+}
 
 /*========= MEDIA QUERIES===========*/
 
@@ -966,6 +1002,20 @@ div#social-links ul li a {
     padding: 0;
 }
 
+/*======== AUDIO PLAYER=======*/
+
+#mainwrap #audio0 .plyr--audio .plyr__controls {
+    background: var(--color-orange) !important;
+}
+
+#audio0 .plyr__time {
+    color: #fff;
+}
+
+#audio0 use {
+    fill: #fff;
+}
+
 @media (max-width: 1399.98px) {
     .Contact_Us {
         font-size: 100px;
@@ -992,6 +1042,12 @@ div#social-links ul li a {
     .btn-2 {
         padding: 0px 20px;
     }
+    
+    nav .btn-1,
+    nav .btn-2{
+        padding: 5px 5px;
+    }
+
     .navbar-expand-lg .navbar-nav .nav-link {
         font-size: 12px;
     }
@@ -1053,6 +1109,20 @@ div#social-links ul li a {
 }
 
 @media (max-width: 767.98px) {
+    .track-list{
+        overflow:hidden;
+    }
+    .track-list th,
+    .track-list td{
+        font-size:14px;
+    }
+    .track-list .td_size{
+        padding: 0.5rem 0rem;
+    min-width: 86px;
+    }
+    .none-mobile{
+        display:none;
+    }
     .width-50 {
         width: 100%;
     }
@@ -1063,6 +1133,10 @@ div#social-links ul li a {
     }
     .navigation-padding {
         padding: 0 !important;
+    }
+        .btn-2 {
+        display: inline;
+        padding: 10px 27px;
     }
 }
 

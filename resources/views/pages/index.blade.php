@@ -5,13 +5,65 @@
         <section>
             <img class="w-100" src="../storage/settings/banner/{{$banner}}">
         </section>
+        
+         <section id="player" class="bg-color-orange position-fixed bottom-0 w-100 p-2 hide" style="z-index: 99;">
+            <div class="container-fluid p-0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="">
+                            <div id="mainwrap">
+                               <div class="outer-container">
+                                  <audio src="" id="track"></audio>
+                                </div>
+                                
+                                <div class="player-container">
+                                       <div class="track-info text-center fw-bold">
+                                      <span id="track-artist"><div id="track-artist1"></div></span>
+                                      <span>-</span>
+                                      <span id="track-title"><div id="track-title1"></div></span>
+                                    </div>
+                                  <div class="box d-md-flex align-items-center">
+                                  
+                                 
+                                    <div class="next-prev-play d-flex align-items-center justify-content-center">
+                                      <i class="far fa-arrow-alt-circle-left fa-2x px-2" id="prev-track"></i>
+                                        <div class="play-pause">
+                                      <i class="far fa-play-circle fa-3x" id="play"></i>
+                                      <i class="far fa-pause-circle fa-3x" id="pause"></i>
+                                    </div>
+                                      <i class="far fa-arrow-alt-circle-right fa-2x px-2" id="next-track"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center w-100">
+                                           <div class="progress-bar bg-transparent w-100">
+                                      <input type="range" id="progressBar" min="0" max="" value="0" />
+                                    </div>
+                                    <div class="track-time px-2">
+                                      <div id="currentTime"></div>
+                                      <!--<div id="durationTime"></div>-->
+                                    </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- <div id="plwrap">
+                            <ul id="plList"></ul>
+                        </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <script type="text/javascript">
+        document.getElementById("player").style.display = "none";
+        </script>
        
         <section class="tracks">
             <div class="col-12  text-center py-md-5 py-3">
                 <h3 class="fs-1 position-relative">Beats</h3>
             </div>
             <div class="container-fluid">
-                <div class="row px-5">
+                <div class="row px-xl-5 px-2">
                     <div class="col-lg-11 align-items-center justify-content-between mx-auto">
                     <div class="row ">
                     @if(session('success'))
@@ -21,17 +73,16 @@
                     @endif
                     
                     <div class="py-4" id="waveform"></div>
-                        <div class="my-4">
-                            <table class="table">
+                        <div class="my-4 table-responsive track-list">
+                            <table class="table ">
                                 <thead>
-                                    <tr>
+                                    <tr class="none-mobile">
                                     <th></th>
-                                        <th>listed</th>
                                         <th>Track</th>
                                         <th>Producer</th>
                                         <th>Time</th>
                                         <th>Bpm</th>
-                                        <th class="tag" colspan="2">Tag</th>
+                                        <th class="tag">Tag</th>
                                         <th>View</th>
                                         <th>Share</th>
                                         <th>Download</th>
@@ -43,35 +94,39 @@
                                     @foreach($songs as $key=>$song)
                                     <a href="javascript:void(0)">
                                     <tr valign="middle">
-                                        <td class="td_size ">
-                                            <img src="../storage/songs/{{ $song->image }}" class="img-fluid" alt="" width="60px" height="50">
-                                        <button class="border-0 play-pause-button py-2 px-2 bg-transparent position-relative" value="{{ $song->song_file }}" 
-                                        id="playSong" onclick="dosomething(this)">
-                                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM176 168V344C176 352.7 180.7 360.7 188.3 364.9C195.8 369.2 205.1 369 212.5 364.5L356.5 276.5C363.6 272.1 368 264.4 368 256C368 247.6 363.6 239.9 356.5 235.5L212.5 147.5C205.1 142.1 195.8 142.8 188.3 147.1C180.7 151.3 176 159.3 176 168V168z"/></svg>
+                                        <td class="td_size">
+                                            <img src="../storage/songs/{{ $song->image }}" class="img-fluid" alt="" width="60" height="50">
+                                        <button class="border-0 play-pause-button py-2 px-2 bg-transparent position-relative getsongvalue" value="{{ $song->song_file }}" 
+                                        id="playSong" onclick="dosomething(this,'{{$song->title}}','{{$song->producers->name}}','{{$key}}')">
+                                        <input type="hidden" id="getsongfile{{$key}}" value="{{ $song->song_file }}">
+                                        <input type="hidden" id="getsongtitle{{$key}}" value="{{ $song->title }}">
+                                        <input type="hidden" id="getartistname{{$key}}" value="{{$song->producers->name}}">
+                                           <svg id="svg_btn{{$key}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM176 168V344C176 352.7 180.7 360.7 188.3 364.9C195.8 369.2 205.1 369 212.5 364.5L356.5 276.5C363.6 272.1 368 264.4 368 256C368 247.6 363.6 239.9 356.5 235.5L212.5 147.5C205.1 142.1 195.8 142.8 188.3 147.1C180.7 151.3 176 159.3 176 168V168z"/></svg>
+                                           <input type="hidden" id="svgbuttonstatus{{$key}}" value=start>
                                         </button>
                                         </td>
-                                        <td class="td_size"><a href="#" class="text-dark">{{ ++$key }}. <svg fill="#fe8e44"
-                                                    class="heart" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 512 512">
-                                                    <path
-                                                        d="M0 190.9V185.1C0 115.2 50.52 55.58 119.4 44.1C164.1 36.51 211.4 51.37 244 84.02L256 96L267.1 84.02C300.6 51.37 347 36.51 392.6 44.1C461.5 55.58 512 115.2 512 185.1V190.9C512 232.4 494.8 272.1 464.4 300.4L283.7 469.1C276.2 476.1 266.3 480 256 480C245.7 480 235.8 476.1 228.3 469.1L47.59 300.4C17.23 272.1 .0003 232.4 .0003 190.9L0 190.9z" />
-                                                </svg></a></td>
                                         <td class="td_size">{{$song->title}}</td>
                                         @if(isset($song->producers->name))
-                                        <td class="td_size">{{$song->producers->name}}</td>
+                                        <td class="td_size none-mobile">{{$song->producers->name}}</td>
                                         @else
                                         <td class="td_size"></td>
                                         @endif
-                                        <td class="td_size">{{$song->min}}:{{$song->sec}}</td>
-                                        <td class="td_size">{{$song->bpm}}</td>
-                                        <td class="tag td_size" colspan="2">
+                                        <td class="td_size none-mobile">{{$song->min}}:{{$song->sec}}</td>
+                                        <td class="td_size none-mobile">{{$song->bpm}}</td>
+                                        <td class="tag td_size none-mobile">
                                             @foreach($song->song_tags as $tags)
                                                 <a href="./tag/{{$tags->tags}}" class="border py-2 px-3 d-inline-block" href="javscript:void(0)">{{$tags->tags}}.</a>
                                             @endforeach
                                                     
                                         </td>
-                                        <td><a href="./beat/{{$song->id}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M279.6 160.4C282.4 160.1 285.2 160 288 160C341 160 384 202.1 384 256C384 309 341 352 288 352C234.1 352 192 309 192 256C192 253.2 192.1 250.4 192.4 247.6C201.7 252.1 212.5 256 224 256C259.3 256 288 227.3 288 192C288 180.5 284.1 169.7 279.6 160.4zM480.6 112.6C527.4 156 558.7 207.1 573.5 243.7C576.8 251.6 576.8 260.4 573.5 268.3C558.7 304 527.4 355.1 480.6 399.4C433.5 443.2 368.8 480 288 480C207.2 480 142.5 443.2 95.42 399.4C48.62 355.1 17.34 304 2.461 268.3C-.8205 260.4-.8205 251.6 2.461 243.7C17.34 207.1 48.62 156 95.42 112.6C142.5 68.84 207.2 32 288 32C368.8 32 433.5 68.84 480.6 112.6V112.6zM288 112C208.5 112 144 176.5 144 256C144 335.5 208.5 400 288 400C367.5 400 432 335.5 432 256C432 176.5 367.5 112 288 112z"/></svg></a></td>
-                                        <td>
+                                        <td class="none-mobile"><a href="./beat/{{$song->id}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M279.6 160.4C282.4 160.1 285.2 160 288 160C341 160 384 202.1 384 256C384 309 341 352 288 352C234.1 352 192 309 192 256C192 253.2 192.1 250.4 192.4 247.6C201.7 252.1 212.5 256 224 256C259.3 256 288 227.3 288 192C288 180.5 284.1 169.7 279.6 160.4zM480.6 112.6C527.4 156 558.7 207.1 573.5 243.7C576.8 251.6 576.8 260.4 573.5 268.3C558.7 304 527.4 355.1 480.6 399.4C433.5 443.2 368.8 480 288 480C207.2 480 142.5 443.2 95.42 399.4C48.62 355.1 17.34 304 2.461 268.3C-.8205 260.4-.8205 251.6 2.461 243.7C17.34 207.1 48.62 156 95.42 112.6C142.5 68.84 207.2 32 288 32C368.8 32 433.5 68.84 480.6 112.6V112.6zM288 112C208.5 112 144 176.5 144 256C144 335.5 208.5 400 288 400C367.5 400 432 335.5 432 256C432 176.5 367.5 112 288 112z"/></svg></a></td>
+                                        <td class="td-size">
+                                            
+                                            <span onclick="share({{$key}})" class="share" tabindex="0" role="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9l-94.1 47C145.4 170.2 121.9 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.9 0 49.4-10.2 66.6-26.9l94.1 47c-.5 3.9-.7 7.8-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.9 0-49.4 10.2-66.6 26.9l-94.1-47c.5-3.9 .7-7.8 .7-11.9s-.2-8-.7-11.9l94.1-47C302.6 213.8 326.1 224 352 224z"/></svg>
+                                            </span>
+                                        </td>
+                                        <td class="d-none">
                                         @php
                                         echo \Share::page(
                                             'https://backend.hostingladz.com/webapp/beatpro/public/beat/'.$song->id,
@@ -145,7 +200,7 @@
                     <h3 class="fs-1">Drumkit and Loop Packs</h3>
                 </div>
             </div>
-            <div class=" row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 gy-4">
+            <div class=" row row-cols-lg-4 row-cols-md-2 row-cols-1 gy-4">
             @foreach($drum_kit_loops as $drum_kit_loop)
             <div class="col"> 
                     <a href="{{ url('/drum_kit_loops/'.$drum_kit_loop->id) }}" class="d-block shadow bg-white rounded text-center text-decoration-none position-relative hover-scale">
@@ -210,11 +265,11 @@
                         <p class="mx-auto width-50 pt-5 text-secondary">Whether you want to produce R&B music or release a hip-hop single, people will be dancing to the beats of your songs all day long with our help. </p>
                     </div>
                 </div>
-                <div class="row row-cols-md-3 row-cols-1">
+                <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1">
                     @foreach($services as $key=>$service)
                     <div class="col mb-4 mb-md-0">
                         <div class="box border">
-                            <img src="../storage/services/{{ $service->image }}" style="width:300px;height:300px;" class="w-100" alt="">
+                            <img src="../storage/services/{{ $service->image }}" class="img-fluid" alt="">
 
                             <div class="content p-4">
                                 <h4>{{$service->name}}</h4>
@@ -231,25 +286,30 @@
         </section>
 
 
-        <section class="membership services contest py-lg-5 py-3">
+        <section class="membership services contest py-lg-5 py-3 ">
             <div class="container">
                 <div class="row">
                     <div class="col-12  text-center py-md-5 py-3">
                         <h3 class="fs-1 position-relative text-white">Spotlight</h3>
                         <p class="mx-auto width-50 pt-5 text-secondary text-white">From video games to television shows, we’ve produced blockbuster beats for clients across various industries.  </p>
+                    <div class="SpotlightSlider">
+                        
+                         @foreach($spotlights as $key=>$spotlight)
+                             <div class="items p-5 pb-0">
+                                    <a href="{{ route('specific_spotlight', ['id' => $spotlight->id]) }}" class="position-relative text-white fs-5 fw-bold">
+                                <img src="../storage/spotlights/{{ $spotlight->image }}" class="mx-auto">
+                                <span class="pt-3">{{$spotlight->name}}</span>
+                                </a>
+                             </div>
+                              
+                       @endforeach
+                      
+                    </div>
+                    
                     </div>
                 </div>
-                <div class="row row-cols-md-4 row-cols-1">
-                    @foreach($spotlights as $key=>$spotlight)
-                    <div class="col mb-4 mb-md-0 text-center">
-                        <div class="rounded-3">
-                            <a href="javascript:void(0)" class="position-relative text-white fs-5 fw-bold">
-                                <img src="../storage/spotlights/{{ $spotlight->image }}" class="img-fluid" alt="img">
-                                <span class="position-absolute end-0 start-0">{{$spotlight->name}}</span>
-                            </a>
-                        </div>
-                    </div>
-                   @endforeach
+                <div class="row row-cols-md-4  row-cols-md-4 row-cols-1">
+              
                 </div>
                  <div class="col-md-12 text-center pt-5">
                         <a href="./all_spotlights" class="btn-1 text-white">View All</a>
@@ -290,92 +350,226 @@
                 </form>
             </div>
         </section>
+        
+    <!-- share modal -->
+    @foreach($songs as $key=>$sharesong)
+    <div class="modal fade" id="shareModal{{$key}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="text-center">Share Link on Social Media</h5>
+                <button type="button" class="close" aria-label="Close" onclick="closeModal({{$key}})">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex;justify-content: center;">
+               @php
+                echo \Share::page(
+                'https://backend.hostingladz.com/webapp/beatpro/public/beat/'.$sharesong->id,
+                )
+                ->facebook()
+                ->twitter()
+                ->whatsapp();   
+                @endphp    
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    @endforeach
+    
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="{{ asset('frontend_assets/js/plugins.js') }} " defer></script>
-<script src="https://unpkg.com/wavesurfer.js"></script>
-<script src="{{ asset('frontend_assets/js/theme.js') }} " defer></script>
 
-<script>
 
-let wavesurfer;
+<script type="text/javascript">
 
-function dosomething(element){
+
+
+function dosomething(element,title,artist,key){
+const track = document.getElementById("track");
+const thumbnail = document.getElementById("thumbnail");
+const background = document.getElementById("background");
+const trackArtist = document.getElementById("track-artist");
+const trackTitle = document.getElementById("track-title");
+const progressBar = document.getElementById("progressBar");
+const currentTime = document.getElementById("currentTime");
+const durationTime = document.getElementById("durationTime");
+
+const playSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM176 168V344C176 352.7 180.7 360.7 188.3 364.9C195.8 369.2 205.1 369 212.5 364.5L356.5 276.5C363.6 272.1 368 264.4 368 256C368 247.6 363.6 239.9 356.5 235.5L212.5 147.5C205.1 142.1 195.8 142.8 188.3 147.1C180.7 151.3 176 159.3 176 168V168z"/></svg>';
+const pauseSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM224 191.1v128C224 337.7 209.7 352 192 352S160 337.7 160 320V191.1C160 174.3 174.3 160 191.1 160S224 174.3 224 191.1zM352 191.1v128C352 337.7 337.7 352 320 352S288 337.7 288 320V191.1C288 174.3 302.3 160 319.1 160S352 174.3 352 191.1z"/></svg>';
+
+
+
+let play = document.getElementById("play");
+let pause = document.getElementById("pause");
+let next = document.getElementById("next-track");
+let prev = document.getElementById("prev-track");
+let playing = document.getElementById("svgbuttonstatus".concat(key)).value;
+
+
+if (playing=="start" ) {
+$("#track").attr("src",'../storage/songs/'+element.value+'');
+}
+
+trackArtist.textContent = artist;
+trackTitle.textContent = title;
+
+let tracks=""
+trackIndex = 0;
+
+// tracks = [
+//   '../storage/songs/'+previous_track_value+'',
+//   '../storage/songs/'+element.value+'',
+//   '../storage/songs/'+next_track_value+''
+// ];
+
+tracks = [];
+trackArtists = [];
+trackTitles = [];
+for (var i = 0; i < 10; ++i) {
+    songfile=document.getElementById("getsongfile".concat(i)).value
+    songtitle=document.getElementById("getsongtitle".concat(i)).value
+    artistname=document.getElementById("getartistname".concat(i)).value
+    tracks[i]= "../storage/songs/"+songfile+'';
+    trackArtists[i]= artistname;
+    trackTitles[i]= songtitle;
+}
+
+
+// thumbnails = [
+//   "https://i.ibb.co/7RhfRBZ/Fine-Line-Harry-Styles.jpg",
+//   "https://i.ibb.co/7RhfRBZ/Fine-Line-Harry-Styles.jpg",
+//   "https://i.ibb.co/7RhfRBZ/Fine-Line-Harry-Styles.jpg"
+// ];
+
+//let playing = true;
+
+
+
+
+function pausePlay() {
+   console.log(playing)
+  if (playing=="true" || playing==true || playing=="start") {
+    play.style.display = "none";
+    pause.style.display = "block";
+    track.play();
+    playing = false;
+    $("#svg_btn".concat(key)).html(pauseSvg);
     
-        const createSongPlayer = () => {
-            localStorage.setItem('music_current_song', element.value)
-
-            wavesurfer?.destroy()
-    
-            wavesurfer = WaveSurfer.create({
-                container: '#waveform',
-                waveColor: '#fd743d',
-                progressColor: 'rgb(254, 179, 78)'
-            });
-        }
-    
-        const playSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM176 168V344C176 352.7 180.7 360.7 188.3 364.9C195.8 369.2 205.1 369 212.5 364.5L356.5 276.5C363.6 272.1 368 264.4 368 256C368 247.6 363.6 239.9 356.5 235.5L212.5 147.5C205.1 142.1 195.8 142.8 188.3 147.1C180.7 151.3 176 159.3 176 168V168z"/></svg>';
-        const pauseSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM224 191.1v128C224 337.7 209.7 352 192 352S160 337.7 160 320V191.1C160 174.3 174.3 160 191.1 160S224 174.3 224 191.1zM352 191.1v128C352 337.7 337.7 352 320 352S288 337.7 288 320V191.1C288 174.3 302.3 160 319.1 160S352 174.3 352 191.1z"/></svg>';
-    
-    
-         $('.play-pause-button').each(function(index, item) {
-            $(item).html(playSvg)
-        })
-
-        const getSongFromLocalStorage = localStorage.getItem('music_current_song')
-
-        if(getSongFromLocalStorage === element.value) {
-            
-            try {
-                wavesurfer.playPause()
-                return;
-            } catch {
-                localStorage.removeItem('music_current_song')
-                createSongPlayer();
-            }
-           
-           
-        }
-        
-        createSongPlayer();
-
-const loadSong = wavesurfer.load('../storage/songs/'+element.value+'');
-
-wavesurfer.on('pause', () => {
-    $(element).html(playSvg)
-})
-
-wavesurfer.on('play', () => {
-    $(element).html(pauseSvg)
-})
-
-wavesurfer.on('ready', () => {
-    wavesurfer.playPause();
-})
-
-$('.controls .btn').on('click', function(){
-      var action = $(this).data('action');
-      switch (action) {
-        case 'play':
-          wavesurfer.playPause();
-          break;
-        case 'back':
-          wavesurfer.skipBackward();
-          break;
-        case 'forward':
-          wavesurfer.skipForward();
-          break;
-        case 'mute':
-          wavesurfer.toggleMute();
-          break;
+    for (var i = 0; i < 10; ++i) {
+      if(i==key)
+      {
+          i++
       }
-    });
-
+      else{
+        $("#svg_btn".concat(i)).html(playSvg)
+      }
+    }
     
+    $("#player").show();
+    console.log("play")
+    document.getElementById("svgbuttonstatus".concat(key)).value =false;
+    
+  } else if(playing=="false" || playing==false) {
+    pause.style.display = "none";
+    play.style.display = "block";
+    track.pause();
+    playing = true;
+    $("#svg_btn".concat(key)).html(playSvg)
+    $("#player").show();
+    console.log("pause")
+    document.getElementById("svgbuttonstatus".concat(key)).value =true;
+
+
+  }
+}
+
+pausePlay();
+
+play.addEventListener("click", pausePlay);
+pause.addEventListener("click", pausePlay);
+
+track.addEventListener("ended", nextTrack);
+
+function nextTrack() {
+
+  if(key==9)
+  {
+    nexttrackindex=0
+    key=0
+  }
+  else{
+    nexttrackindex=++key
+  }
+
+  track.src = tracks[nexttrackindex];
+
+  trackArtist.textContent = trackArtists[nexttrackindex];
+  trackTitle.textContent = trackTitles[nexttrackindex];
+
+  playing = true;
+  pausePlay();
+}
+
+next.addEventListener("click", nextTrack);
+
+function prevTrack() {
+  if(key==0)
+  {
+    prevtrackindex=9
+    key=9
+  }
+  else{
+    prevtrackindex=--key
+  }
+
+  track.src = tracks[prevtrackindex];
+
+  trackArtist.textContent = trackArtists[prevtrackindex];
+  trackTitle.textContent = trackTitles[prevtrackindex];
+
+  playing = true;
+  pausePlay();
+}
+
+prev.addEventListener("click", prevTrack);
+
+function progressValue() {
+  progressBar.max = track.duration;
+  progressBar.value = track.currentTime;
+
+  currentTime.textContent = formatTime(track.currentTime);
+//   durationTime.textContent = formatTime(track.duration);
+}
+
+setInterval(progressValue, 500);
+
+function formatTime(sec) {
+  let minutes = Math.floor(sec / 60);
+  let seconds = Math.floor(sec - minutes * 60);
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+  return `${minutes}:${seconds}`;
+}
+
+function changeProgressBar() {
+  track.currentTime = progressBar.value;
+}
+
+progressBar.addEventListener("click", changeProgressBar);
+
 };
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 function loginalert() {
     Swal.fire({
     // title: 'Error!',
@@ -383,6 +577,16 @@ function loginalert() {
     icon: 'error',
     confirmButtonText: 'Close'
     })
+}
+
+function share(key) {
+    document.getElementById("shareModal".concat(key)).style.display = "block"
+    document.getElementById("shareModal".concat(key)).classList.add("show")
+}
+
+function closeModal(key){
+    document.getElementById("shareModal".concat(key)).style.display = "none"
+    document.getElementById("shareModal".concat(key)).classList.add("hide")
 }
 
 
@@ -395,6 +599,10 @@ function purchasealert() {
     })
 }
 
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
 
 </script>
 @endsection

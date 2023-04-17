@@ -3,7 +3,7 @@
 @section('content')
     <main>
         <section class=" py-5 pb-3"></section>
-        <section class=" py-80">
+        <section class=" py-80 align-items-center justify-content-center d-flex" style="min-height: calc(100vh - 384px);">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 text-center mb-3 mb-lg-0">
@@ -29,7 +29,7 @@
                         <button type="submit" class="btn-1 d-block text-center text-white text-decoration-none">Place Order</button>
                         </form>
                         @endif
-                        <p class="py-md-3 py-2">{{$drum_kit_loop->desc}}</p>
+                        <p class="py-md-3 py-2">{!!$drum_kit_loop->desc!!}</p>
                     </div>
                 </div>
             </div>

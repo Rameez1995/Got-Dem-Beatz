@@ -44,12 +44,15 @@ Route::get('/membership', [MembershipController::class, 'view_membership'])->nam
 Route::get('/services', [PagesController::class, 'services'])->name('ourservices');
 Route::get('/all_beats', [PagesController::class, 'all_songs'])->name('all_songs');
 Route::get('/search_beats', [PagesController::class, 'search_songs'])->name('search');
-Route::get('/all/tracks', [PagesController::class, 'all_songs'])->name('all_beats');
+Route::get('/all_beats', [PagesController::class, 'all_songs'])->name('all_beats');
 Route::get('/all_spotlights', [PagesController::class, 'all_spotlights'])->name('all_spotlights');
 Route::get('beat/{beat_id}', [PagesController::class, 'beat'])->name('beat');
 Route::get('/drum_kit_loops/{id}', [PagesController::class, 'specific_drum_kit_loop']);
-Route::get('/privacy-policy', [PagesController::class, 'privacy_policy']);
-Route::get('/terms-condition', [PagesController::class, 'terms_condition']);
+Route::get('/spotlight/{id}', [PagesController::class, 'specific_spotlight'])->name('specific_spotlight');
+Route::get('/privacy-policy', [PagesController::class, 'privacy_policy'])->name('privacy_policy');
+Route::get('/terms-condition', [PagesController::class, 'terms_condition'])->name('terms_condition');
+
+Route::get('beatlm/{beat_id}', [PagesController::class, 'share'])->name('share');
 
 Route::get('/services/custom_beat', [ServicesController::class, 'custom_beat']);
 Route::get('/services/drum_kits_loops', [ServicesController::class, 'drum_kits_loops']);
@@ -79,6 +82,7 @@ Route::get('/status_drum_kits_loops', [DrumKitLoopOrdersController::class, 'stat
 Route::get('tag/{tag}', [PagesController::class, 'tags_songs'])->name('tags.songs');
 
 Route::get('/social-media-share', [PagesController::class,'index']);
+Route::post('/social-media-share1', [PagesController::class,'getsharebutton'])->name('ajaxRequest.post');
 
 Route::prefix('/user')->group(function () {
 Route::middleware(['auth'])->group(function () {
